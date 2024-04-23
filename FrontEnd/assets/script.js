@@ -10,10 +10,12 @@ console.log("EN TITRE PROJETS", projets);
 const sectionGallery = document.querySelector(".gallery"); //peut être dehors pour ne pas la créer à chaque fois
 
 //f qui génère toute la page
-function genererLesArticles(projets) { //a la place de projets, je peux ecrire ce que je veux? 
-    for (let i = 0; i < projets.length; i++) {
+function genererLesArticles(projetsArticles) { //a la place de projets, je peux ecrire ce que je veux? 
     
-        const article = projets[i]; 
+    sectionGallery.innerHTML = "";//pour effacer la gallery pour 
+    for (let i = 0; i < projetsArticles.length; i++) {
+        
+        const article = projetsArticles[i]; 
 
         const baliseFigure = document.createElement("figure");
     //baliseFigure.innerText = ``; //ça peut fonctionner mais remplacer innerText par innerHTML puis mettre directement dedans balise img et figcaption
@@ -34,52 +36,31 @@ function genererLesArticles(projets) { //a la place de projets, je peux ecrire c
 //permet le 1er affichage des figures
 genererLesArticles(projets); 
 
-const reponseDeux = await fetch("http://localhost:5678/api/categories");
-const catego = await reponseDeux.json();
+const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
+const catego = await reponseDesCategories.json();
 console.log("TYPE DE CATEGORIES", catego);
 
 const Sectionfilterchoix = document.querySelector(".filterchoix")
-//boucle pour créer les nomls des boutons auto
+//boucle pour créer les nom des boutons via dossier categorie
 for (let i = 0; i < catego.length; i++) {
 
     const filtres = catego[i];
     
-    const baliseBoutonObjets = document.createElement("button"); 
-    baliseBoutonObjets.innerText = filtres.name;
-    baliseBoutonObjets.className = filtres.name;//la class Hotel & ... pb à cause du & ?
-    
-    Sectionfilterchoix.appendChild(baliseBoutonObjets);
+    const boutonCatFiltre = document.createElement("button"); 
+    boutonCatFiltre.innerText = filtres.name;
+    boutonCatFiltre.className = filtres.name;//pour créer  des class aux boutons en HTML
+
+    boutonCatFiltre.addEventListener("click", function () {
+        const projetsFiltres = projets.filter(function (miniFonctionNomInventee) {
+            //filtre moi dans tout les images quand catId du works est = à catego[i]id du json categories
+         return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrais pas précisesr que c'est pour [i] ?
+        })
+        //effacement de l'écran et régénération des articles filtrés
+        genererLesArticles(projetsFiltres);
+    });
+    Sectionfilterchoix.appendChild(boutonCatFiltre);
 }
-//ajout du listener pour filtre que les objets
-const FiltreObjets = document.querySelector(".Objets");
-FiltreObjets.addEventListener("click", function () {
-    const filtreQueDesObjets = projets.filter(function (truc) {
-     return truc.categoryId === 1;
-    })
-    //effacement de l'écran et régénération de la page
-    console.log(filtreQueDesObjets)
-    document.querySelector(".Objets").innerHTML = "";
-    genererLesArticles(filtreQueDesObjets);
-});
-
-//for (let i = projets.length -1 ; i >= 0; i--) { //hein? 
-
-//    if(filtreQueDesObjets !== 1)
-//        tructruc.splice(i,1)
-//}
-
-const FiltreAppartements = document.querySelector(".Appartements");
-FiltreAppartements.addEventListener("click", function () {
-    const filtreQueDesAppartements = projets.filter(function (truc) {
-     return truc.categoryId === 2;
-    })
-    console.log(filtreQueDesAppartements)
-});
-
-const FiltreHotelsResto = document.querySelector(".Hotels"); //je n'ai pas pu mettre &
-FiltreHotelsResto.addEventListener("click", function () {
-    const filtreQueDesHotelsEtRestaur = projets.filter(function (truc) {
-     return truc.categoryId === 3;
-    })
-    console.log(filtreQueDesHotelsEtRestaur)
+const btnTous = document.querySelector(".btntous");
+btnTous.addEventListener("click", function() {
+    genererLesArticles(projets);
 });
