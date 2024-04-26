@@ -1,16 +1,16 @@
 
 const reponse = await fetch("http://localhost:5678/api/works");
-const projets = await reponse.json();
+const login = await reponse.json();
 
-console.log("EN TITRE PROJETS", projets);
-//const premierProjet = projets[0];
-//console.log("EN TITRE PREMIER PROJET", premierProjet);
-//console.log("EN TITRE MON PREMIER PROJET", premierProjet.title);
+/* console.log("EN TITRE PROJETS", login);
+const premierProjet = projets[0];
+console.log("EN TITRE PREMIER PROJET", premierProjet);
+console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
 
 const sectionGallery = document.querySelector(".gallery"); //peut être dehors pour ne pas la créer à chaque fois
 
 //f qui génère toute la page
-function genererLesArticles(projetsArticles) { //a la place de projets, je peux ecrire ce que je veux? 
+function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
     
     sectionGallery.innerHTML = "";//pour effacer la gallery pour 
     for (let i = 0; i < projetsArticles.length; i++) {
@@ -34,7 +34,7 @@ function genererLesArticles(projetsArticles) { //a la place de projets, je peux 
     }
 }
 //permet le 1er affichage des figures
-genererLesArticles(projets); 
+genererLesArticles(login); // j'ai un uncaught TypeError is null,
 
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
@@ -51,7 +51,7 @@ for (let i = 0; i < catego.length; i++) {
     boutonCatFiltre.className = filtres.name;//pour créer  des class aux boutons en HTML
 
     boutonCatFiltre.addEventListener("click", function () {
-        const projetsFiltres = projets.filter(function (miniFonctionNomInventee) {
+        const projetsFiltres = login.filter(function (miniFonctionNomInventee) {
             //filtre moi dans tout les images quand catId du works est = à catego[i]id du json categories
          return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrais pas précisesr que c'est pour [i] ?
         })
@@ -62,5 +62,5 @@ for (let i = 0; i < catego.length; i++) {
 }
 const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
-    genererLesArticles(projets);
+    genererLesArticles(login);
 });

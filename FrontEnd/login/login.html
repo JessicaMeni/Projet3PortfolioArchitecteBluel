@@ -9,7 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="../assets/style.css">
-	<script type="module" src="../assets/script.js"></script> <!--type module permet asynchrone -->
+	<!-- <script type="module" src="../assets/script.js"></script> -->
+    <script type="module" src="sciptLogin.js" ></script> 
 </head>
 <body>
     <header>
@@ -26,14 +27,14 @@
     <main class="mainLogin">
         <section class="formLogIn">
             <h2>Log In</h2>
-            <form action="#" method="post">
-			    <label for="email">Email</label>
-			    <input type="email" name="email" id="email">
+            <form class="formulaire-de-connection">
+			    <label for="text">Email</label>
+			    <input type="text" name="email" id="email"><!-- j'ai mis text a la place de password car le msg d'alerte Firefox est chiant -->
                 <label for="name">Mot de passe</label>
-			    <input type="text" name="mdp" id="mdp">
-
+			    <input type="password" name="mdp" id="mdp">  
+                                                        
                 <input type="submit" value="Se connecter">
-                <p class="mdpOublie">Mot de passe oublié</p>
+                <a href="#" class="mdpOublie">Mot de passe oublié</a>
             </form>
         </section>
     </main>
