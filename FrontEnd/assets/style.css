@@ -218,6 +218,7 @@ input[type="submit"]{
 }
 footer {
 	background-color: #FFFFFF;
+	border: 1em dotted black;
 	position: absolute;
 	width: 100%;
 	bottom: 0;
