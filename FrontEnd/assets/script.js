@@ -7,7 +7,7 @@ const premierProjet = projets[0];
 console.log("EN TITRE PREMIER PROJET", premierProjet);
 console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
 
-const sectionGallery = document.querySelector(".gallery"); //peut être dehors pour ne pas la créer à chaque fois
+const sectionGallery = document.querySelector(".gallery"); //peut être mis dehors pour ne pas la créer à chaque fois
 
 //f qui génère toute la page
 function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
