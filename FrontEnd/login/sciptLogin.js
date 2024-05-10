@@ -25,6 +25,8 @@ function ajoutListenerSeConnecter() { //pq fetch arrive après. le { pas accept�
         const contenu = await reponse.json();
         //enregistrer la rep de L'API grace a SetItem
         window.localStorage.setItem("cleToken", token);
+        token = JSON.stringify(contenu);
+        const recupToken = window.localStorage.getItem("token");
         //window.location.href="../index.html"; // pour envoyer sur page d'acc
     } else { 
         alert("L'email et/ou le mot de passe est faux")
@@ -32,18 +34,17 @@ function ajoutListenerSeConnecter() { //pq fetch arrive après. le { pas accept�
     })
 });
 }
-ajoutListenerSeConnecter(); //pq la rappeler ?
+ajoutListenerSeConnecter(); //on appelle la fonction pour qu'elle s'execute
 
+/* const reponse = await fetch("http://localhost:5678/api/users/login");
+const contenu = await reponse.jspon();
 //getItem permet de lire une valeur depuis localeStorage, et recup des clésTok
-
-
 const cleToken = window.localStorage.getItem("cleToken");
 if (cleToken === null){
-    await fetch ("http://localhost:5678/api/users/login");
     cleToken = await reponse.json();
     const valeurCle = JSON.stringify(cleToken);
     window.localStorage.setItem("cleToken", token);
 }else{
     cleToken = JSON.parse(cleToken);
 }
-console.log("la clé", cleToken);
+console.log("la clé", cleToken); */
