@@ -1,14 +1,12 @@
+/* const premierProjet = projets[0]; console.log("EN TITRE PROJETS", login); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
+const recupToken = window.localStorage.getItem("cleToken");
+document.querySelector(".black_mode_edition").style.display = 'none';
+document.querySelector(".modifier_projets").style.display = 'none';
 
 const reponse = await fetch("http://localhost:5678/api/works");
 const login = await reponse.json();
 
-/* console.log("EN TITRE PROJETS", login);
-const premierProjet = projets[0];
-console.log("EN TITRE PREMIER PROJET", premierProjet);
-console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
-
 const sectionGallery = document.querySelector(".gallery"); //peut être mis dehors pour ne pas la créer à chaque fois
-
 //f qui génère toute la page
 function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
     
@@ -38,7 +36,6 @@ genererLesArticles(login); // j'ai un uncaught TypeError is null,
 
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
-console.log("TYPE DE CATEGORIES", catego);
 
 const Sectionfilterchoix = document.querySelector(".filterchoix")
 //boucle pour créer les nom des boutons via dossier categorie
@@ -64,3 +61,22 @@ const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
     genererLesArticles(login);
 });
+
+/* const hide_black_mode_edition = document.querySelector(".black_mode_edition");
+document.querySelector(".black_mode_edition").style.diplay = 'none';
+document.querySelector(".black_mode_edition").style.visibility = "hidden"; tests*/ 
+
+if (recupToken) {
+    console.log("On est dans la boucle du if recupTok");
+    //remplacer login par logout, efface le "tous" 
+    document.querySelector(".black_mode_edition").style.display = '';
+    document.querySelector(".modifier_projets").style.display = '';
+    document.querySelector(".loginOut").innerText = "logout";
+    document.querySelector(".filterchoix").style.display = 'none';
+    /* display none c ok la sécu ? car on peu repcup avec inspecter */
+    
+    /* document.getElementsByClassName(loginOut).innerText = "LogOut"; 
+    element.innerHTML = "Logout";  pas fonctionné 
+    document.querySelector('BODY > LI .loginOut').innerHTML = "LogOut";
+    document.querySelector(".navigation" .href).innerHTML = "https://www.google.com"; ils n'ont pas fonctionnés, pq ?*/
+}

@@ -7,19 +7,26 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" > <!-- tout ça c'est le kit pour utiliser les icones fa-solid ?  -->
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="./assets/script.js"></script> <!--type module permet asynchrone -->
 	<!-- <script type="module" src="./login/scriptlogin.js"></script> -->
 </head>
 <body>
+	<div class="black_mode_edition">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>Mode édition</p>
+	</div>
 <header>
+	
 	<h1>Sophie Bluel <span>ARCHITECTE D'INTÉRIEUR</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
+			<a href="../index.html"><li>projets</li></a>
 			<li>contact</li>
-			<a href="login/login.html"><li>login</li></a>
+			<a href="login/login.html"><li class="loginOut">login</li></a>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -33,14 +40,28 @@
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
-			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice).</p>
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
-			<div class="filterchoix">
-				<button class="btntous">Tous</button>
-			</div>
+		<div class="mes-projets">
+			<h2>Mes Projets</h2>
+			<span class="modifier_projets">
+				<i class="fa-regular fa-pen-to-square"></i>
+				<a href="#modal1">modifier</a>
+
+				<aside id="modal1" class="modal" aria-hidden="true" role="dialog">
+						<div class="modal_wrapper">
+							<h3>Galerie photo</h3>
+						<div></div>
+						<button class="Add-photo-modal">Ajouter une photo</button>
+						</div>
+				</aside>
+			</span>
+		</div>
+		<div class="filterchoix">
+			<button class="btntous">Tous</button>
+		</div>
 		<div class="gallery"> 
 			
 			<!-- <figure>
