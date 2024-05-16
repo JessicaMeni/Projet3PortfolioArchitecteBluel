@@ -37,7 +37,7 @@ genererLesArticles(login); // j'ai un uncaught TypeError is null,
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
 
-const Sectionfilterchoix = document.querySelector(".filterchoix")
+const sectionFilterChoix = document.querySelector(".filterchoix")
 //boucle pour créer les nom des boutons via dossier categorie
 for (let i = 0; i < catego.length; i++) {
 
@@ -55,7 +55,7 @@ for (let i = 0; i < catego.length; i++) {
         //effacement de l'écran et régénération des articles filtrés
         genererLesArticles(projetsFiltres);
     });
-    Sectionfilterchoix.appendChild(boutonCatFiltre);
+    sectionFilterChoix.appendChild(boutonCatFiltre);
 }
 const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
@@ -67,13 +67,14 @@ document.querySelector(".black_mode_edition").style.diplay = 'none';
 document.querySelector(".black_mode_edition").style.visibility = "hidden"; tests*/ 
 
 if (recupToken) {
-    console.log("On est dans la boucle du if recupTok");
-    //remplacer login par logout, efface le "tous" 
+    console.log("On est dans la boucle du if recupToken");
+
     document.querySelector(".black_mode_edition").style.display = '';
     document.querySelector(".modifier_projets").style.display = '';
     document.querySelector(".loginOut").innerText = "logout";
     document.querySelector(".filterchoix").style.display = 'none';
     /* display none c ok la sécu ? car on peu repcup avec inspecter */
+    const modaleModification = document.querySelector(".modeAdminGaleriePhoto")
     
     /* document.getElementsByClassName(loginOut).innerText = "LogOut"; 
     element.innerHTML = "Logout";  pas fonctionné 
