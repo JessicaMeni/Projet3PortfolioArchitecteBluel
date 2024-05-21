@@ -29,7 +29,7 @@ function ajoutListenerSeConnecter() { //pq fetch arrive apr√®s. le { pas accept√
         
         window.location.href="../index.html";
     } else { 
-        alert("L'email et/ou le mot de passe est faux")
+        alert("L'email et/ou le mot de passe est incorrect")
             }
     })
 });
