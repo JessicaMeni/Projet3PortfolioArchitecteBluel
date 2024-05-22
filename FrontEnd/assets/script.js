@@ -75,9 +75,47 @@ if (recupToken) {
     document.querySelector(".filterchoix").style.display = 'none';
     /* display none c ok la sécu ? car on peu repcup avec inspecter */
     const modaleModification = document.querySelector(".modeAdminGaleriePhoto")
+
+    const liLogin = document.querySelector(".loginOut")
+    if  (liLogin.addEventListener("click", (eventSurLogout) => {
+        eventSurLogout.preventDefault()
+        window.localStorage.removeItem("cleToken")
+        console.log("click sur logout");
+        location.reload();
+    }));
+    const reponse = await fetch("http://localhost:5678/api/works");
+const login = await reponse.json();
+
+const galleryModeAdmin = document.querySelector(".modeAdminGaleriePhoto");
+function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
     
-    /* document.getElementsByClassName(loginOut).innerText = "LogOut"; 
+    galleryModeAdmin.innerHTML = "";//effacer la gallery
+    for (let i = 0; i < projetsArticles.length; i++) {
+        
+        const article = projetsArticles[i]; 
+
+        const baliseImage = document.createElement("img");//le ALT dans <img?> on peut l'ajouter avec createElement qui reprend .title
+        baliseImage.src = article.imageUrl;
+
+        galleryModeAdmin.appendChild(baliseFigure); 
+    }
+    genererLesArticles(login);
+}
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* document.getElementsByClassName(loginOut).innerText = "LogOut"; 
     element.innerHTML = "Logout";  pas fonctionné 
     document.querySelector('BODY > LI .loginOut').innerHTML = "LogOut";
     document.querySelector(".navigation" .href).innerHTML = "https://www.google.com"; ils n'ont pas fonctionnés, pq ?*/
-}

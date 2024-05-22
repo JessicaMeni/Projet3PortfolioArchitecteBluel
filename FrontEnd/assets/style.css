@@ -28,7 +28,6 @@ time, mark, audio, video {
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
-	
 }
 html {
 	min-height: 100%;
@@ -36,6 +35,10 @@ html {
 }
 ol, ul {
 	list-style: none;
+}
+p {
+	font-weight: 400;
+	color: #3D3D3D;
 }
 blockquote, q {
 	quotes: none;
@@ -52,7 +55,6 @@ table {
 /** end reset css**/
 body {
 	line-height: 1;
-	max-width: 1140px;
 	margin: 0 auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -61,10 +63,14 @@ body {
 	flex: 1;
 	flex-direction: column;
 }
+
+/* HEADER */
 header {
+	width: 1140px;
+	margin: 50px auto;
 	display: flex;
+	align-items: center; /* centre les liens la vertic */
 	justify-content: space-between;
-	margin: 50px 0;
 }
 .black_mode_edition {
 	width: 100%;
@@ -85,8 +91,11 @@ header {
 	font-weight: 400;
 	font-size: 16px;
 }
-section {
-	margin: 50px 0;
+
+/* MAIN */
+main {
+	max-width: 1140px;
+	margin: 50px auto;
 }
 
 h1{
@@ -139,26 +148,29 @@ nav a {
 #introduction {
 	display: flex;
 	align-items: center;
+	column-gap: 5em;
+	margin: 0em 6.8em;
 }
 #introduction figure {
-	flex: 1
+	width: 105%;
 }
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	width: 100%;
 }
 
 #introduction article {
-	flex: 1
+	width: fit-content;
 }
 #introduction h2 {
 	margin-bottom: 1em;
 }
-
 #introduction p {
-	margin-bottom: 0.5em;
-	padding-right: 30%;
+	margin-bottom: 1em;
+}
+#portfolio {
+	margin: auto;
+	max-width: 953px;
 }
 .mes-projets {
 	display: flex;
@@ -174,22 +186,24 @@ nav a {
 	padding-left: 45%;
 	padding-right: 15%;
 }
-.modal {
+#modal1 {
 	position: fixed;
-	display: flex;
+	display: none;
 	align-items: center;
 	justify-content: center;
-	top: 0;
-	left: 0;
-	background: #ccefea;
-	border-radius: 20%;
+	top: 50%;
+	left: 50%;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 78%;
 	animation: fadeIn .5s both;
 }
+.modal.afficher {
+	display: flex;
+}
 .modal_wrapper {
-	/* width: 90%;
-	height: 90%; */
 	max-height: calc(100vh - 20px); /* 100vh une fois la hauteur de l'écran */
-	padding: 10px;
+	background-color: #FFFFFF;
+	padding: 10rem;
 	overflow: auto;
 	border-radius: 20%;
 	animation: fadeIn .3s both;
@@ -199,6 +213,63 @@ nav a {
 	from {opacity: 0; }
 	to {opacity: 1; }
  }
+ .js-close-modal {
+	border: none;
+	background-color: transparent;
+	font-size: 16px;
+ }
+/******* v2 *******/
+ .modal-container {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+ }
+ .modal-container.active {
+	display: block; /*pour annuler le none quand on clic sur le trigger*/
+ }
+ .overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+ }
+ .modal {
+	/* width: 95%; */
+	max-width: 630px;
+	min-width: 300px;
+	padding: 10rem;
+	background-color: #FFFFFF;
+	border-radius: 10px;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%); /* tech pour centrer avec des elem en position absolute */
+ }
+.js-close-modal {
+	padding: 8px 10px;
+	border: none;
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	cursor: pointer;
+	background-color: transparent;
+	font-size: 20px;
+}
+.modal-btn {
+	background-color: transparent;
+	border: none;
+	font-family: Work Sans;
+	font-weight: 400;
+	font-size: 14px;
+}
+.modal-btn:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
 
 .filterchoix{
 	display: flex;
@@ -226,14 +297,8 @@ nav a {
 .gallery {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
+	grid-column-gap: 18px;
 	grid-row-gap: 20px;
-	max-width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-}
-.gallery figure {
-	width: 310px;
 }
 .gallery img {
 	width: 100%;
@@ -242,8 +307,8 @@ nav a {
 	font-size: 13px;
 }
 #contact {
-	width: 50%;
-margin: auto;
+	width: 33%;
+	margin: 4em auto;
 }
 #contact > * {
 	text-align: center;
@@ -283,28 +348,27 @@ input[type="submit"]{
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
-	margin : 2em auto ;
+	margin : 3em auto ;
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
 }
 footer {
-	background-color: #e2a952;
+	background-color: #FFFFFF;
 	width: 100%;
 	margin-top: auto;
 }
-
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
+footer li {
+		margin-right: 97px;
+}
 
 /****** Page Login ******/
-.mainLogin {
-	width: 50%;
-	margin: 0 auto;
-}
+
 .formLogIn h2 {
 	text-align: center;
 }
@@ -322,11 +386,9 @@ footer nav ul {
 }
 .formLogIn label {
 	margin: 2em 0 1em 0;
-	padding-left: 15%;
 }
 .formulaire-de-connection input#email,#mdp {
-	width: 70%;
-	margin: auto;
+	width: 379px;
 }
 .mdpOublie {
 	text-decoration-line: underline;

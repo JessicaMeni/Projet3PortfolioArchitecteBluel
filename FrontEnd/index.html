@@ -24,8 +24,8 @@
 	<h1>Sophie Bluel <span>ARCHITECTE D'INTÉRIEUR</span></h1>
 	<nav>
 		<ul>
-			<a href="../index.html"><li>projets</li></a>
-			<li>contact</li>
+			<a href="/index.html"><li>projets</li></a>
+			<a href="#"><li>contact</li></a>
 			<a href="login/login.html"><li class="loginOut">login</li></a>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
@@ -46,9 +46,27 @@
 	<section id="portfolio">
 		<div class="mes-projets">
 			<h2>Mes Projets</h2>
+			
 			<span class="modifier_projets">
 				<i class="fa-regular fa-pen-to-square"></i>
-
+				
+				<div class="modal-container">
+					<div class="overlay modal-trigger"></div>
+					<div class="modal" role="dialog">
+						<div class="js-modal-stop-la-propagation">
+							<button class="js-close-modal modal-trigger" aria-label="close modal"><i class="fa-solid fa-xmark"></i></button>
+						</div>
+						<h3>Galerie photo</h3>
+						<div class="modeAdminGaleriePhoto">
+						</div>
+						<form>
+							<input class="inputbouton" type="submit" value="Ajouter une photo">
+						</form>
+					</div>
+				</div>
+			<button class="modal-btn modal-trigger" >mod</button>
+				
+				<a href="#modal1" class="js-modal">modifier</a>
 				<aside id="modal1" class="modal" aria-hidden="true" tabindex="-1" role="dialog">
 						<div class="modal_wrapper js-modal-stop-la-propagation">
 							<button class="js-close-modal">
@@ -64,20 +82,12 @@
 							</form>
 						</div>
 				</aside>
-
-				<a href="#modal1" class="js-modal">modifier</a>
-
 			</span>
 		</div>
 		<div class="filterchoix">
 			<button class="btntous">Tous</button>
 		</div>
 		<div class="gallery"> 
-			
-			<!-- <figure>
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
-			</figure> -->
 		</div>
 	</section>
 	<section id="contact">
