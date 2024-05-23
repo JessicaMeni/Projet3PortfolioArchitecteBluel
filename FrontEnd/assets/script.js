@@ -74,8 +74,8 @@ if (recupToken) {
     document.querySelector(".loginOut").innerText = "logout";
     document.querySelector(".filterchoix").style.display = 'none';
     /* display none c ok la sécu ? car on peu repcup avec inspecter */
-    const modaleModification = document.querySelector(".modeAdminGaleriePhoto")
 
+    // pour se logout
     const liLogin = document.querySelector(".loginOut")
     if  (liLogin.addEventListener("click", (eventSurLogout) => {
         eventSurLogout.preventDefault()
@@ -83,24 +83,21 @@ if (recupToken) {
         console.log("click sur logout");
         location.reload();
     }));
-    const reponse = await fetch("http://localhost:5678/api/works");
-const login = await reponse.json();
 
-const galleryModeAdmin = document.querySelector(".modeAdminGaleriePhoto");
-function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
-    
-    galleryModeAdmin.innerHTML = "";//effacer la gallery
-    for (let i = 0; i < projetsArticles.length; i++) {
-        
-        const article = projetsArticles[i]; 
-
-        const baliseImage = document.createElement("img");//le ALT dans <img?> on peut l'ajouter avec createElement qui reprend .title
-        baliseImage.src = article.imageUrl;
-
-        galleryModeAdmin.appendChild(baliseFigure); 
-    }
-    genererLesArticles(login);
+//Ajout des img dans modal
+const galleryModeAdmin = document.querySelector(".modal-container .modeAdminGaleriePhoto");
+async function genererArticlesModeAdmin() {
+    galleryModeAdmin.innerHTML = ""
+    const img = await genererLesArticles()
+    genererLesArticles.forEach(images => {
+        const baliseImg = document.createElement("img")
+        const span = document.createElement("span")
+        const poubelle = document.createElement("i")
+        poubelle.classList.add("fa-solid", "fa-trash-can")
+        poubelle.id = images.id
+    });
 }
+genererArticlesModeAdmin(login)
     
 }
 
