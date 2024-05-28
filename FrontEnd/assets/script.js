@@ -1,23 +1,22 @@
-/* const premierProjet = projets[0]; console.log("EN TITRE PROJETS", login); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
+/* const premierProjet = works[0]; console.log("EN TITRE PROJETS", works); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
 const recupToken = window.localStorage.getItem("cleToken");
 document.querySelector(".black_mode_edition").style.display = 'none';
 document.querySelector(".modifier_projets").style.display = 'none';
 
 const reponse = await fetch("http://localhost:5678/api/works");
-const login = await reponse.json();
+const works = await reponse.json();
 
 const sectionGallery = document.querySelector(".gallery"); //peut être mis dehors pour ne pas la créer à chaque fois
 //f qui génère toute la page
 function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux dans () ? Oui
     
-    sectionGallery.innerHTML = "";//pour effacer la gallery pour 
+    sectionGallery.innerHTML = "";//pour effacer la gallery, l'actualiser 
     for (let i = 0; i < projetsArticles.length; i++) {
         
         const article = projetsArticles[i]; 
 
         const baliseFigure = document.createElement("figure");
     //baliseFigure.innerText = ``; //ça peut fonctionner mais remplacer innerText par innerHTML puis mettre directement dedans balise img et figcaption
-    //let parentElement = document.getElementById("gallery"); (Question : c correct ? non,car gallery n'est pas n'a pas d'id mais c une balise)
     
         const baliseImage = document.createElement("img");//le ALT dans <img?> on peut l'ajouter avec createElement qui reprend .title
         baliseImage.src = article.imageUrl;
@@ -32,7 +31,53 @@ function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux d
     }
 }
 //permet le 1er affichage des figures
-genererLesArticles(login); // j'ai un uncaught TypeError is null,
+genererLesArticles(works); //
+
+afficherProjetsDansModal(works);
+function afficherProjetsDansModal (projetsArticles) {
+    const galleryModal = document.querySelector(".modal-container .modeAdminGaleriePhoto");
+    galleryModal.innerHTML = "";
+    for (let i = 0; i < projetsArticles.length; i++) {
+        const article = projetsArticles[i];
+
+        const div = document.createElement("div");
+        div.classList.add("div-modeAdminGaleriePhoto", article.id);
+        galleryModal.append(div);
+        //div.id = article.id;
+        
+        const span = document.createElement("span");
+        div.append(span);
+        
+        const poubelle = document.createElement("i");
+        poubelle.classList.add("fa-solid", "fa-trash-can");
+        span.append(poubelle);
+        poubelle.id = article.id;
+        
+        const baliseImage = document.createElement("img");
+        baliseImage.src = article.imageUrl;
+        div.append(baliseImage);
+
+        // div.classList.add(article.id); 
+        
+        //if (document.querySelector(".fa-trash-can").addEventListener("click", (supprimerProjetsDansModal) => {
+        //    ".fa-trash-can".parentElement.remove();
+            //const supprimerProjetsDansModal = "div-modeAdminGaleriePhoto".splice(article.id, 1);
+        //}));
+    }
+}
+
+/* 
+function supprimerProjetsDansModal() {
+    const poubelles = document.querySelectorAll(".fa-trash-can")
+    const parentPoubelles = document.querySelectorAll("div-modeAdminGaleriePhoto")
+        poubelles.addEventListener("click", (clicSurPoubelle)=> {
+            fetch("http://localhost:5678/api/works/", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            })
+        })
+}
+supprimerProjetsDansModal() */
 
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
@@ -48,9 +93,9 @@ for (let i = 0; i < catego.length; i++) {
     boutonCatFiltre.className = filtres.name;//pour créer  des class aux boutons en HTML
 
     boutonCatFiltre.addEventListener("click", function () {
-        const projetsFiltres = login.filter(function (miniFonctionNomInventee) {
+        const projetsFiltres = works.filter(function (miniFonctionNomInventee) {
             //filtre moi dans tout les images quand catId du works est = à catego[i]id du json categories
-         return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrais pas précisesr que c'est pour [i] ?
+         return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrai pas préciser que c'est pour [i] ?
         })
         //effacement de l'écran et régénération des articles filtrés
         genererLesArticles(projetsFiltres);
@@ -59,7 +104,7 @@ for (let i = 0; i < catego.length; i++) {
 }
 const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
-    genererLesArticles(login);
+    genererLesArticles(works);
 });
 
 /* const hide_black_mode_edition = document.querySelector(".black_mode_edition");
@@ -70,10 +115,10 @@ if (recupToken) {
     console.log("On est dans la boucle du if recupToken");
 
     document.querySelector(".black_mode_edition").style.display = '';
-    document.querySelector(".modifier_projets").style.display = '';
+    document.querySelector(".modifier_projets").style.display = "flex";
     document.querySelector(".loginOut").innerText = "logout";
     document.querySelector(".filterchoix").style.display = 'none';
-    /* display none c ok la sécu ? car on peu repcup avec inspecter */
+    /* display none c ok la sécu ? car on peu repcup avec inspecter : oui mais pas de pb sans le login */
 
     // pour se logout
     const liLogin = document.querySelector(".loginOut")
@@ -84,35 +129,4 @@ if (recupToken) {
         location.reload();
     }));
 
-//Ajout des img dans modal
-const galleryModeAdmin = document.querySelector(".modal-container .modeAdminGaleriePhoto");
-async function genererArticlesModeAdmin() {
-    galleryModeAdmin.innerHTML = ""
-    const img = await genererLesArticles()
-    genererLesArticles.forEach(images => {
-        const baliseImg = document.createElement("img")
-        const span = document.createElement("span")
-        const poubelle = document.createElement("i")
-        poubelle.classList.add("fa-solid", "fa-trash-can")
-        poubelle.id = images.id
-    });
 }
-genererArticlesModeAdmin(login)
-    
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* document.getElementsByClassName(loginOut).innerText = "LogOut"; 
-    element.innerHTML = "Logout";  pas fonctionné 
-    document.querySelector('BODY > LI .loginOut').innerHTML = "LogOut";
-    document.querySelector(".navigation" .href).innerHTML = "https://www.google.com"; ils n'ont pas fonctionnés, pq ?*/
