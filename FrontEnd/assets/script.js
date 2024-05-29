@@ -41,9 +41,9 @@ function afficherProjetsDansModal (projetsArticles) {
         const article = projetsArticles[i];
 
         const div = document.createElement("div");
-        div.classList.add("div-modeAdminGaleriePhoto", article.id);
+        div.classList.add("div-modeAdminGaleriePhoto", /* article.id */);
+        div.id = `article-${article.id}`;
         galleryModal.append(div);
-        //div.id = article.id;
         
         const span = document.createElement("span");
         div.append(span);
@@ -57,27 +57,65 @@ function afficherProjetsDansModal (projetsArticles) {
         baliseImage.src = article.imageUrl;
         div.append(baliseImage);
 
-        // div.classList.add(article.id); 
+        poubelle.addEventListener('click', () => supprimerProjetsDansModal(poubelle.id, div));
+ 
         
         //if (document.querySelector(".fa-trash-can").addEventListener("click", (supprimerProjetsDansModal) => {
-        //    ".fa-trash-can".parentElement.remove();
-            //const supprimerProjetsDansModal = "div-modeAdminGaleriePhoto".splice(article.id, 1);
+        //      ".fa-trash-can".parentElement.remove();
+        //      const supprimerProjetsDansModal = "div-modeAdminGaleriePhoto".splice(article.id, 1);
+        //      const removed = parentPoubelles.splice(poubelles.id,1);
         //}));
     }
 }
+async function supprimerProjetsDansModal(Id, poubelle) { //si ça ne fonctionne pas c a cause du async
+    const APIUrl = `http://localhost:5678/api/works/${Id}`;
+    const token = recupToken
 
-/* 
+
+    fetch (APIUrl, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // Ajoute le token dans l'en-tête
+         }
+    })
+    .then(reponse => {
+        if (reponse.ok) {
+            poubelle.remove();
+            console.log(`Image ${Id} deleted successfully`);
+        } else {
+            throw new Error('Failed to delete the image');
+        }
+    })
+    .catch(error => {
+        console.error('Une erreur lors de la suppression de l image :', error);
+    });
+    genererLesArticles(works)
+}
+/*
 function supprimerProjetsDansModal() {
     const poubelles = document.querySelectorAll(".fa-trash-can")
     const parentPoubelles = document.querySelectorAll("div-modeAdminGaleriePhoto")
-        poubelles.addEventListener("click", (clicSurPoubelle)=> {
-            fetch("http://localhost:5678/api/works/", {
+    
+    parentPoubelles.forEach(poubelles => {
+        poubelles.addEventListener("click", (evenementDuClic)=> {
+            const id = poubelles.id
+            const methodDelete = {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", }
+                // pas besoin de body pcq on n'envoi rien au serveur
+            }
+            fetch("http://localhost:5678/api/works/${id}" + methodDelete)
+            .then (reponse => {
+                if (reponse.ok) {
+                    document.getElementById(poubelles.id).remove();
+                    console.log("le delete a fonctionné");
+                }
             })
         })
-}
-supprimerProjetsDansModal() */
+    })
+        
+} 
+supprimerProjetsDansModal()*/
 
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
@@ -102,14 +140,11 @@ for (let i = 0; i < catego.length; i++) {
     });
     sectionFilterChoix.appendChild(boutonCatFiltre);
 }
+
 const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
     genererLesArticles(works);
 });
-
-/* const hide_black_mode_edition = document.querySelector(".black_mode_edition");
-document.querySelector(".black_mode_edition").style.diplay = 'none';
-document.querySelector(".black_mode_edition").style.visibility = "hidden"; tests*/ 
 
 if (recupToken) {
     console.log("On est dans la boucle du if recupToken");
@@ -128,5 +163,4 @@ if (recupToken) {
         console.log("click sur logout");
         location.reload();
     }));
-
 }
