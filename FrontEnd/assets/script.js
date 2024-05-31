@@ -16,12 +16,13 @@ function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux d
         const article = projetsArticles[i]; 
 
         const baliseFigure = document.createElement("figure");
+        baliseFigure.id = `article-${article.id}` //ajouté pour la suppression projet
     //baliseFigure.innerText = ``; //ça peut fonctionner mais remplacer innerText par innerHTML puis mettre directement dedans balise img et figcaption
     
-        const baliseImage = document.createElement("img");//le ALT dans <img?> on peut l'ajouter avec createElement qui reprend .title
+        const baliseImage = document.createElement("img");//le ALT dans <img?> on peut l'ajouter avec createElement
         baliseImage.src = article.imageUrl;
         const baliseFigcaption = document.createElement("figcaption");
-        baliseFigcaption.innerText = article.title; //à la place de innerText, textContent ? oui c la meme chose mais c + trop utilisé
+        baliseFigcaption.innerText = article.title; //à la place de innerText, textContent ? oui c la meme chose mais + trop utilisé
 
         //nope pas utile const sectionFigure = document.querySelector(".gallery", "figure"); // pq je ne peux pas mettre baliseFigure a la place de"figure" ?. querySelector selectionne le 1er gallery figure qu'il y a
         baliseFigure.appendChild(baliseImage); // utiliser baliseFigure directement
@@ -41,7 +42,7 @@ function afficherProjetsDansModal (projetsArticles) {
         const article = projetsArticles[i];
 
         const div = document.createElement("div");
-        div.classList.add("div-modeAdminGaleriePhoto", /* article.id */);
+        div.classList.add("div-modeAdminGaleriePhoto");
         div.id = `article-${article.id}`;
         galleryModal.append(div);
         
@@ -57,20 +58,12 @@ function afficherProjetsDansModal (projetsArticles) {
         baliseImage.src = article.imageUrl;
         div.append(baliseImage);
 
-        poubelle.addEventListener('click', () => supprimerProjetsDansModal(poubelle.id, div));
- 
-        
-        //if (document.querySelector(".fa-trash-can").addEventListener("click", (supprimerProjetsDansModal) => {
-        //      ".fa-trash-can".parentElement.remove();
-        //      const supprimerProjetsDansModal = "div-modeAdminGaleriePhoto".splice(article.id, 1);
-        //      const removed = parentPoubelles.splice(poubelles.id,1);
-        //}));
+        poubelle.addEventListener('click', () => supprimerProjetsDansModal(article.id, div));
     }
 }
-async function supprimerProjetsDansModal(Id, poubelle) { //si ça ne fonctionne pas c a cause du async
+async function supprimerProjetsDansModal(Id, div) {
     const APIUrl = `http://localhost:5678/api/works/${Id}`;
     const token = recupToken
-
 
     fetch (APIUrl, {
         method: "DELETE",
@@ -81,41 +74,21 @@ async function supprimerProjetsDansModal(Id, poubelle) { //si ça ne fonctionne 
     .then(reponse => {
         if (reponse.ok) {
             poubelle.remove();
-            console.log(`Image ${Id} deleted successfully`);
+            //Approche 1
+            document.querySelector(`#projet-${Id}`).remove();
+
+            //Approche 2
+            //works = works.filter(function(projet) {
+            //    return projet.id !== Id;
+            //});
         } else {
-            throw new Error('Failed to delete the image');
+            throw new Error('Echec à la suppression de l image');
         }
     })
     .catch(error => {
-        console.error('Une erreur lors de la suppression de l image :', error);
+        console.error('Une erreur lors de la suppression :', error);
     });
-    genererLesArticles(works)
 }
-/*
-function supprimerProjetsDansModal() {
-    const poubelles = document.querySelectorAll(".fa-trash-can")
-    const parentPoubelles = document.querySelectorAll("div-modeAdminGaleriePhoto")
-    
-    parentPoubelles.forEach(poubelles => {
-        poubelles.addEventListener("click", (evenementDuClic)=> {
-            const id = poubelles.id
-            const methodDelete = {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json", }
-                // pas besoin de body pcq on n'envoi rien au serveur
-            }
-            fetch("http://localhost:5678/api/works/${id}" + methodDelete)
-            .then (reponse => {
-                if (reponse.ok) {
-                    document.getElementById(poubelles.id).remove();
-                    console.log("le delete a fonctionné");
-                }
-            })
-        })
-    })
-        
-} 
-supprimerProjetsDansModal()*/
 
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();

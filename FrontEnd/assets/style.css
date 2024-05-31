@@ -294,17 +294,45 @@ nav a {
 	border: none;
 	margin: 1% auto 11% auto;
 }
-.modal-btn {
+.btn-modifier {
 	background-color: transparent;
 	border: none;
 	font-family: Work Sans;
 	font-weight: 400;
 	font-size: 14px;
 }
-.modal-btn:hover {
+.btn-modifier:hover {
 	cursor: pointer;
 	font-weight: bold;
 }
+/******* Modal n°2 *******/
+.div-contenu {
+	width: 68%;
+	height: 56%;
+	padding-bottom: 4em;
+	border-bottom: solid 1px #b3b3b3;
+}
+.div-contenu .div-ajouter-photo {
+	background-color: #E8F1F6;
+	width: 420px;
+	height: 169px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	padding: 2% 0 3% 0;
+	border-radius: 3px;
+}
+.div-contenu .fa-image {
+	color: #B9C5CC;
+	font-size: 4.9em;
+	text-align: center;
+	padding: 0px;
+}
+.div-contenu p {
+	font-size: 10px;
+}
+
 
 /******* Barre Filtre *******/
 .filterchoix{
