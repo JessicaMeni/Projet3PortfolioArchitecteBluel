@@ -15,6 +15,12 @@ inputBoutonModal.addEventListener("click", function (e) {
     const boutonFlecheRetour = document.createElement("button")
     boutonFlecheRetour.classList.add("btn-retour-modal")
     modalDeux.append(boutonFlecheRetour);
+    //fonction retour sur modal-un
+    boutonFlecheRetour.addEventListener("click", () => {
+        if (document.querySelector(".modal-un").style.display === 'none' || document.querySelector(".modal-un").style.display === '')
+            document.querySelector(".modal-un").style.display = 'flex';
+            modalDeux.style.display = 'none';
+    });
     
     const flecheRetour = document.createElement("i");
     flecheRetour.classList.add("fa-solid", "fa-arrow-left");
@@ -45,13 +51,69 @@ inputBoutonModal.addEventListener("click", function (e) {
     iconePhoto.classList.add("fa-regular", "fa-image");
     divPhoto.append(iconePhoto);
 
-    const boutonAjouterPhoto = document.createElement("input")
-    boutonAjouterPhoto.type="photo";
-    boutonAjouterPhoto.value="+ Ajouter Photo"
-    divPhoto.append(boutonAjouterPhoto);
+    const labelAjouterPhoto = document.createElement("label");
+    labelAjouterPhoto.classList.add("label-ajouter-photo")
+    labelAjouterPhoto.innerText = '+ Ajouter Photo';
+    divPhoto.append(labelAjouterPhoto);
+
+    const inputAjouterPhoto = document.createElement("input");
+    inputAjouterPhoto.setAttribute("type", "file");
+    inputAjouterPhoto.setAttribute("accept", "image/*");
+    /*inputAjouterPhoto.setAttribute( {
+        'type' : 'file',
+        'accept' : 'image',
+        'value' : '+ Ajouter Photo'
+    });
+     Object.assign(inputAjouterPhoto, {
+        type: "file",
+    }) */
+    //boutonAjouterPhoto.type="file"; quand je mets file tout disparait
+    //inputAjouterPhoto.value="+ Ajouter Photo"
+    //inputAjouterPhoto.innerHTML= '<input type="file" accept="image/*" name="label-ajouter-photo" value="+ Ajouter Photo" />';
+    labelAjouterPhoto.append(inputAjouterPhoto);
+    
 
     const pPhoto = document.createElement("p");
-    pPhoto.textContent += "jpg, png : 4mo max"
+    pPhoto.textContent += "jpg, png : 4mo max";
     divPhoto.append(pPhoto);
+
+    const form = document.createElement("form");
+    form.classList.add("formLogIn");
+    form.name = 'Ajout Photo';
+    form.method ='POST';
+    //form.action = "";
+    divContenu.append(form);
+
+        const formTitre = document.createElement("label");
+        formTitre.htmlFor = "title";
+        formTitre.innerText = 'Titre';
+        form.append(formTitre);
+        
+        const formTitreInput = document.createElement("input");
+        formTitreInput.setAttribute("type", "text");
+        formTitreInput.id = 'title';
+        form.append(formTitreInput);
+
+        const formCatego = document.createElement("label");
+        formCatego.htmlFor = "categorie";
+        formCatego.innerText = 'Catégorie';
+        form.append(formCatego);
+    
+        const formCategoSelect = document.createElement("select");
+        formCategoSelect.name = 'category';
+        formCategoSelect.id = 'categorie';
+        form.append(formCategoSelect);
+        
+
+        const traitGris = document.createElement("span");
+        form.append(traitGris);
+
+        //un input de type submit pour le bouton valider avec pour value "valider"
+    
+        const formSubmit = document.createElement("input");
+        formSubmit.classList.add("submit-valider");
+        formSubmit.setAttribute("type", "submit");
+        formSubmit.setAttribute("value", "Valider");
+        form.append(formSubmit);
 });
 

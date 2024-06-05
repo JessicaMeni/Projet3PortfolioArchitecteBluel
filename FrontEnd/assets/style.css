@@ -52,6 +52,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+input, button {
+	cursor: pointer;
+}
 /** end reset css**/
 body {
 	line-height: 1;
@@ -220,7 +223,8 @@ nav a {
 	justify-content: space-around;
 }
 .modal h3 {
-	margin-top: 40px;
+	padding-top: 10%;
+	padding-bottom: 6%;
 }
 .btn-retour-modal {
 	padding: 8px 10px;
@@ -228,7 +232,6 @@ nav a {
  	position: absolute;
 	top: 20px;
 	left: 30px;
-	cursor: pointer;
 	background-color: transparent;
 	font-size: 20px;
 }
@@ -238,7 +241,6 @@ nav a {
  	position: absolute;
 	top: 20px;
 	right: 30px;
-	cursor: pointer;
 	background-color: transparent;
 	font-size: 20px;
 /* 	margin-left: auto;
@@ -286,7 +288,6 @@ nav a {
 	color: white;
 	font-size: 14px;
 	background-color: #1D6154;
-	margin : 3em auto ;
 	width: 237px;
 	height: 36px;
 	text-align: center;
@@ -297,25 +298,27 @@ nav a {
 .btn-modifier {
 	background-color: transparent;
 	border: none;
-	font-family: Work Sans;
+	font-family: 'Work Sans';
 	font-weight: 400;
 	font-size: 14px;
 }
 .btn-modifier:hover {
-	cursor: pointer;
 	font-weight: bold;
 }
 /******* Modal n°2 *******/
+.modal-deux {
+	justify-content: start;
+	height: 670px;
+}
 .div-contenu {
 	width: 68%;
 	height: 56%;
 	padding-bottom: 4em;
-	border-bottom: solid 1px #b3b3b3;
 }
 .div-contenu .div-ajouter-photo {
 	background-color: #E8F1F6;
 	width: 420px;
-	height: 169px;
+	height: 148px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -323,17 +326,55 @@ nav a {
 	padding: 2% 0 3% 0;
 	border-radius: 3px;
 }
-.div-contenu .fa-image {
+.div-ajouter-photo .fa-image {
 	color: #B9C5CC;
 	font-size: 4.9em;
 	text-align: center;
 	padding: 0px;
 }
-.div-contenu p {
+.div-ajouter-photo .label-ajouter-photo {
+	background-color: #CBD6DC;
+	color: #306685;
+	text-align: center;
+	border-radius: 50px ;
+	border: none;
+	padding: 3%;
+	width: 148px;
+	cursor: pointer;
+}
+input[type="file"] {
+    display: none;
+}
+.div-ajouter-photo p {
 	font-size: 10px;
 }
-
-
+.div-contenu form {
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+}
+.div-contenu select {
+	height: 50px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	background-color: white;
+}
+.formLogIn span {
+	border-bottom: solid 1px #b3b3b3;
+	margin: 10% 0% 5% 0%;
+}
+.formLogIn .submit-valider {
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	background-color: #1D6154;
+	color: #FFFFFF;
+	width: 237px;
+	height: 36px;
+	text-align: center;
+	border-radius: 60px ;
+	margin: 3% auto 10% auto;
+}
 /******* Barre Filtre *******/
 .filterchoix{
 	display: flex;

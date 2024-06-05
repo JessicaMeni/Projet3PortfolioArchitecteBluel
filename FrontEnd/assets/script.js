@@ -1,4 +1,4 @@
-/* const premierProjet = works[0]; console.log("EN TITRE PROJETS", works); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title); */
+//const premierProjet = works[0]; console.log("EN TITRE PROJETS", works); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title);
 const recupToken = window.localStorage.getItem("cleToken");
 document.querySelector(".black_mode_edition").style.display = 'none';
 document.querySelector(".modifier_projets").style.display = 'none';
@@ -114,11 +114,13 @@ for (let i = 0; i < catego.length; i++) {
     sectionFilterChoix.appendChild(boutonCatFiltre);
 }
 
+//création du bouton Tous pour le filtre
 const btnTous = document.querySelector(".btntous");
 btnTous.addEventListener("click", function() {
     genererLesArticles(works);
 });
 
+//en mode admin
 if (recupToken) {
     console.log("On est dans la boucle du if recupToken");
 
