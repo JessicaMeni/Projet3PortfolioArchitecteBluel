@@ -1,3 +1,7 @@
+const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
+const catego = await reponseDesCategories.json();
+
+        
 const inputBoutonModal = document.querySelector(".input-bouton-modal")
 inputBoutonModal.addEventListener("click", function (e) {
     e.preventDefault()
@@ -27,15 +31,16 @@ inputBoutonModal.addEventListener("click", function (e) {
     boutonFlecheRetour.append(flecheRetour);
 
     //créer le bouton de fermeture et son icône
-    const jsCloseModal = document.createElement("button")
-    jsCloseModal.classList.add("js-close-modal", "modal-trigger")
+    const jsCloseModal = document.createElement("button");
+    jsCloseModal.classList.add("js-close-modal", "modal-trigger");
+    jsCloseModal.ariaLabel = "close modal";
     modalDeux.append(jsCloseModal);
     
     const faXmark = document.createElement("i");
     faXmark.classList.add("fa-solid", "fa-xmark");
     jsCloseModal.append(faXmark);
     
-    const h3AjoutPhoto = document.createElement("h3")
+    const h3AjoutPhoto = document.createElement("h3");
     h3AjoutPhoto.textContent += "Ajout Photo";
     modalDeux.append(h3AjoutPhoto);
 
@@ -52,7 +57,7 @@ inputBoutonModal.addEventListener("click", function (e) {
     divPhoto.append(iconePhoto);
 
     const labelAjouterPhoto = document.createElement("label");
-    labelAjouterPhoto.classList.add("label-ajouter-photo")
+    labelAjouterPhoto.classList.add("label-ajouter-photo");
     labelAjouterPhoto.innerText = '+ Ajouter Photo';
     divPhoto.append(labelAjouterPhoto);
 
@@ -81,7 +86,7 @@ inputBoutonModal.addEventListener("click", function (e) {
     form.classList.add("formLogIn");
     form.name = 'Ajout Photo';
     form.method ='POST';
-    //form.action = "";
+    form.action = "http://localhost:5678/api/users/works";
     divContenu.append(form);
 
         const formTitre = document.createElement("label");
@@ -91,6 +96,7 @@ inputBoutonModal.addEventListener("click", function (e) {
         
         const formTitreInput = document.createElement("input");
         formTitreInput.setAttribute("type", "text");
+        formTitreInput.name = 'title';
         formTitreInput.id = 'title';
         form.append(formTitreInput);
 
@@ -100,16 +106,28 @@ inputBoutonModal.addEventListener("click", function (e) {
         form.append(formCatego);
     
         const formCategoSelect = document.createElement("select");
-        formCategoSelect.name = 'category';
+        formCategoSelect.name = 'categorie';
         formCategoSelect.id = 'categorie';
         form.append(formCategoSelect);
         
+        const optionVide = document.createElement("option");
+        optionVide.value = "";
+        optionVide.textContent = "";
+        formCategoSelect.append(optionVide);
+
+        //Chatgpt me propose ça : 
+        for (let i = 0; i < catego.length; i++) {
+            const options = document.createElement("option");
+            const filtres = catego[i];
+            options.value = filtres.id;
+            options.textContent = filtres.name;
+            formCategoSelect.append(options);
+        }
 
         const traitGris = document.createElement("span");
         form.append(traitGris);
 
-        //un input de type submit pour le bouton valider avec pour value "valider"
-    
+        //un input submit pour le bouton valider avec pour value "valider"
         const formSubmit = document.createElement("input");
         formSubmit.classList.add("submit-valider");
         formSubmit.setAttribute("type", "submit");
@@ -117,3 +135,24 @@ inputBoutonModal.addEventListener("click", function (e) {
         form.append(formSubmit);
 });
 
+/* export function sauvegarderNouveauWork () {
+    const submit = document.querySelector(".submit-valider");
+    submit.addEventListener("submit", function (event) {
+    const sauvgNouveauWork = {
+        //imageURL 
+        title : event.target.querySelector("[name=title]").value,
+        category : event.target.querySelector("[name=categorie]").id,
+        
+    };
+    const chargeUtile = JSON.stringify(sauvgNouveauWork)
+    
+    fetch(`http://localhost:5678/api/works/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: chargeUtile
+    }
+    )
+    })
+} */
+
+//Mon deuxieme bouton fermeture ne fonctionne pas, suppression du projet en direct ne fonctionne pas, ajout de la photo sur la div = inexistant, valider en gris, pas encore
