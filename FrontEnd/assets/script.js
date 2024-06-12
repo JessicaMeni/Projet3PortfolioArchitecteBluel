@@ -68,14 +68,14 @@ async function supprimerProjetsDansModal(Id, div) {
     fetch (APIUrl, {
         method: "DELETE",
         headers: { "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}` // Ajoute le token dans l'en-tête
+                    "Authorization": `Bearer ${token}` // Ajoute le token dans l'en-tête
          }
     })
     .then(reponse => {
         if (reponse.ok) {
-            poubelle.remove();
+            div.remove();
             //Approche 1
-            document.querySelector(`#projet-${Id}`).remove();
+            document.querySelector(`#article-${Id}`).remove();
 
             //Approche 2
             //works = works.filter(function(projet) {

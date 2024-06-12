@@ -1,13 +1,12 @@
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
 
-        
 const inputBoutonModal = document.querySelector(".input-bouton-modal")
+
 inputBoutonModal.addEventListener("click", function (e) {
     e.preventDefault()
     const galleryModal = document.querySelector(".modal-container .modal"); // pourquoi avoir choisi ces 2?
-    //galleryModal.innerHTML = "";
-    document.querySelector(".modal-un").style.display = 'none'; //cacher modal 1
+    document.querySelector(".modal-un").style.display = 'none'; //cache modal 1
 
     const modalContainer = document.querySelector(".modal-container");
     //créer la modal
@@ -48,45 +47,66 @@ inputBoutonModal.addEventListener("click", function (e) {
     divContenu.classList.add("div-contenu");
     modalDeux.append(divContenu);
 
-    const divPhoto = document.createElement("div");
-    divPhoto.classList.add("div-ajouter-photo");
-    divContenu.append(divPhoto);
+    const divBleue = document.createElement("div");
+    divBleue.classList.add("div-bleue");
+    divContenu.append(divBleue);
+
+    const divContenuDeDivBleue = document.createElement("div");
+    divContenuDeDivBleue.classList.add("div-ajouter-photo")
+    divBleue.append(divContenuDeDivBleue);
 
     const iconePhoto = document.createElement("i");
     iconePhoto.classList.add("fa-regular", "fa-image");
-    divPhoto.append(iconePhoto);
+    divContenuDeDivBleue.append(iconePhoto);
 
     const labelAjouterPhoto = document.createElement("label");
     labelAjouterPhoto.classList.add("label-ajouter-photo");
+    labelAjouterPhoto.htmlFor = "inputFile";
     labelAjouterPhoto.innerText = '+ Ajouter Photo';
-    divPhoto.append(labelAjouterPhoto);
+    divContenuDeDivBleue.append(labelAjouterPhoto);
 
     const inputAjouterPhoto = document.createElement("input");
     inputAjouterPhoto.setAttribute("type", "file");
+    inputAjouterPhoto.id = 'inputFile'; //ajoutere un id et un for au label avec le meme nom
     inputAjouterPhoto.setAttribute("accept", "image/*");
-    /*inputAjouterPhoto.setAttribute( {
-        'type' : 'file',
-        'accept' : 'image',
-        'value' : '+ Ajouter Photo'
-    });
-     Object.assign(inputAjouterPhoto, {
-        type: "file",
-    }) */
-    //boutonAjouterPhoto.type="file"; quand je mets file tout disparait
-    //inputAjouterPhoto.value="+ Ajouter Photo"
     //inputAjouterPhoto.innerHTML= '<input type="file" accept="image/*" name="label-ajouter-photo" value="+ Ajouter Photo" />';
     labelAjouterPhoto.append(inputAjouterPhoto);
     
-
     const pPhoto = document.createElement("p");
     pPhoto.textContent += "jpg, png : 4mo max";
-    divPhoto.append(pPhoto);
+    divContenuDeDivBleue.append(pPhoto);
+
+    // pour récupérer les données de l'image
+    inputAjouterPhoto.addEventListener('change', function () {
+        const inputFile = document.getElementById("inputFile"); //je viens de l'aj
+        const image = inputFile.files[0];  //récupère le premier fichier sélectionné dans le form 
+        
+        if (image) {
+            const filereader = new FileReader();
+            filereader.addEventListener("load", function(resultat) {
+                console.log("Résultat :", resultat.target.result); //contient les données du fichier sous forme de data URL
+                iconePhoto.style.display = 'none';
+                pPhoto.style.display = 'none';
+                
+                //divContenuDeDivBleue.innerHTML = '';  pas ok, car ça supprime label et input ?
+                let img = document.createElement("img");
+                img.id = 'image-id';
+                img.src = resultat.target.result; //assigne la source de l'image à l'URL de données obtenu par FileReader
+
+                divBleue.style.padding = '0';
+                divContenuDeDivBleue.append(img); //ajoute l'élément image au corps du document, ce qui affiche l'image dans la page web
+            });
+        filereader.readAsDataURL(image); //démarre la lecture du fichier image en tant qu'URL de données
+        //En résumé, ce code permet à un utilisateur de sélectionner un fichier image, puis de lire et d'afficher cette image dans la page web en utilisant un objet FileReader.
+        } else {
+            alert("Le fichier selectionnée n'est pas une image. Veuillez sélectionner un fichier image.");
+        }
+    });
 
     const form = document.createElement("form");
+    form.id = "formAjoutWork";
     form.classList.add("formLogIn");
-    form.name = 'Ajout Photo';
-    form.method ='POST';
-    form.action = "http://localhost:5678/api/users/works";
+    form.name = 'Ajout Photo'; // retirer méthode et action car ca ne se fait plus torp
     divContenu.append(form);
 
         const formTitre = document.createElement("label");
@@ -133,26 +153,49 @@ inputBoutonModal.addEventListener("click", function (e) {
         formSubmit.setAttribute("type", "submit");
         formSubmit.setAttribute("value", "Valider");
         form.append(formSubmit);
+        form.addEventListener("submit", sauvegarderNouveauWork);
+        //ou formSubmit.addEventListener("click", sauvegarderNouveauWork);
 });
 
-/* export function sauvegarderNouveauWork () {
-    const submit = document.querySelector(".submit-valider");
-    submit.addEventListener("submit", function (event) {
+const inputAjouterPhoto = document.getElementById('inputFile');
+const formTitreInput = document.getElementById('title');
+const formCategoSelect = document.getElementById('categorie');
+function boutonValiderDevientVert(click) {
+    if (inputAjouterPhoto.innerText !== '' && formTitreInput.innerText !== '' && formCategoSelect.innerText !== '') {
+        console.log("Tous les labels ont du contenu. Réalisation de l'action.");
+        const formSubmit = document.querySelector(".submit-valider")
+        formSubmit.style.backgroudColor = "#1D6154"
+    }
+};
+
+ 
+function sauvegarderNouveauWork (event) {
+    event.preventDefault();
+    const form = document.querySelector("#formAjoutWork"); // pq # ?
+    const imgSrc = document.getElementById("image-id");// file n'est pas dans la balise form
+    imgSrc.src = resultat.target.result;
+    const imgUrl = imgSrc.src;
     const sauvgNouveauWork = {
-        //imageURL 
-        title : event.target.querySelector("[name=title]").value,
-        category : event.target.querySelector("[name=categorie]").id,
+        title: form.querySelector("[name=title]").value,
+        imageUrl: imgUrl.value,
+        categoryId: form.querySelector("[name=categorie]").value,
         
     };
-    const chargeUtile = JSON.stringify(sauvgNouveauWork)
+    console.log("sauvgNouveauWork", sauvgNouveauWork);
+    const chargeUtile = JSON.stringify(sauvgNouveauWork);
     
-    fetch(`http://localhost:5678/api/works/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: chargeUtile
-    }
-    )
+    fetch(
+        `http://localhost:5678/api/works/`, 
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json", 
+                        "Authorization": `Bearer ${token}`
+             },
+            body: chargeUtile
+        }
+    ).then(async function(reponse) {
+        console.log(reponse);
     })
-} */
+};
 
-//Mon deuxieme bouton fermeture ne fonctionne pas, suppression du projet en direct ne fonctionne pas, ajout de la photo sur la div = inexistant, valider en gris, pas encore
+//Mon deuxieme bouton fermeture ne fonctionne pas, valider en vert pas encore, comment empecher de créer des doublons de modal2

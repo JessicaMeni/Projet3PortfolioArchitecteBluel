@@ -1,4 +1,3 @@
-/******** Version 2 ********/
 const modalContainer = document.querySelector('.modal-container'); //on prend notre container
 const modalTriggers = document.querySelectorAll(".modal-trigger"); //on prend Tout nos class modal-trigger (sur les boutons)
 

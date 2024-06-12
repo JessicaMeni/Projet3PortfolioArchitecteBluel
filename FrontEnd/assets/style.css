@@ -186,7 +186,7 @@ nav a {
 	display: flex;
 	align-items: center;
 }
-.modifier_projets .fa-regular {
+.modifier_projets .fa-pen-to-square {
 	padding-left: 45%;
 	padding-right: 15%;
 }
@@ -315,22 +315,29 @@ nav a {
 	height: 56%;
 	padding-bottom: 4em;
 }
-.div-contenu .div-ajouter-photo {
+.div-contenu .div-bleue {
 	background-color: #E8F1F6;
 	width: 420px;
-	height: 148px;
+	height: 169px;
+	border-radius: 3px;
+}
+.div-ajouter-photo img {
+	height: 100%;
+	object-fit: cover;
+}
+.div-ajouter-photo {
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
-	padding: 2% 0 3% 0;
-	border-radius: 3px;
+
 }
 .div-ajouter-photo .fa-image {
 	color: #B9C5CC;
 	font-size: 4.9em;
 	text-align: center;
-	padding: 0px;
+	padding-top: 13px;
 }
 .div-ajouter-photo .label-ajouter-photo {
 	background-color: #CBD6DC;
@@ -347,17 +354,25 @@ input[type="file"] {
 }
 .div-ajouter-photo p {
 	font-size: 10px;
+	padding-bottom: 19px;
 }
 .div-contenu form {
 	text-align: left;
 	display: flex;
 	flex-direction: column;
 }
+.formLogIn #title {
+	font-family: 'Work Sans';
+	padding-left: 16px;
+}
 .div-contenu select {
 	height: 50px;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	background-color: white;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	padding-left: 16px;
 }
 .formLogIn span {
 	border-bottom: solid 1px #b3b3b3;
@@ -367,7 +382,7 @@ input[type="file"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 14px;
-	background-color: #1D6154;
+	background-color: #A7A7A7; /* #1D6154 */
 	color: #FFFFFF;
 	width: 237px;
 	height: 36px;
