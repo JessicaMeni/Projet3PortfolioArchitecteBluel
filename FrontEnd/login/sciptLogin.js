@@ -19,7 +19,7 @@ function ajoutListenerSeConnecter() { //pq fetch arrive apr√®s. le { pas accept√
         headers: { "Content-Type": "application/json" },
         body: chargeUtile
 
-    }).then(async function(reponse) {
+        }).then(async function(reponse) {
         console.log("STATUT", reponse.status);
         if (reponse.status === 200) {
             const contenu = await reponse.json();

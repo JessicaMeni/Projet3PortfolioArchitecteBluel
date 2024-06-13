@@ -311,9 +311,8 @@ nav a {
 	height: 670px;
 }
 .div-contenu {
-	width: 68%;
+	width: 420px;
 	height: 56%;
-	padding-bottom: 4em;
 }
 .div-contenu .div-bleue {
 	background-color: #E8F1F6;
@@ -330,8 +329,6 @@ nav a {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-around;
-
 }
 .div-ajouter-photo .fa-image {
 	color: #B9C5CC;
@@ -345,6 +342,7 @@ nav a {
 	text-align: center;
 	border-radius: 50px ;
 	border: none;
+	margin: 2%;
 	padding: 3%;
 	width: 148px;
 	cursor: pointer;
