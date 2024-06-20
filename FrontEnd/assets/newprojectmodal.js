@@ -198,10 +198,7 @@ function sauvegarderNouveauWork (event) {
     event.preventDefault();
     const form = document.querySelector("#formAjoutWork"); // pq # ?
     const token = window.localStorage.getItem("cleToken");
-
-    form.addEventListener("submit", function (event) {
         
-
         const formData = new FormData();
         formData.append("title", event.target.querySelector("[name=title]").value); //j'ai ajouté event a cause de l'addEventListener
         formData.append("image", event.target.querySelector("[type=file]").files[0]);
@@ -218,11 +215,11 @@ function sauvegarderNouveauWork (event) {
 
             }).then(reponse => {
                 console.log(reponse.status);
-                const contenu = reponse.json();
-                
                 if (!reponse.ok) {
                     throw new Error("Demande erronée ou non autorisée. Status: ${reponse.status}, Message: ${errorText}")
-                }return contenu;
+                }
+                const contenu = reponse.json();
+                return contenu;
             }) .then (contenu => {
                 console.log('Response data:', contenu);
                 //fermer la modal
@@ -244,13 +241,6 @@ function sauvegarderNouveauWork (event) {
                 const sectionGallery = document.querySelector(".gallery");
                 sectionGallery.appendChild(baliseFigure);
                 // pour la modal 1
-                /*const galleryModal = document.querySelector(".modal-container .modeAdminGaleriePhoto");
-                const div = document.createElement("div");
-                div.classList.add("div-modeAdminGaleriePhoto");
-                galleryModal.append(div);
-                const baliseImageModal = document.createElement("img");
-                baliseImageModal.src = contenu.imageUrl;
-                div.append(baliseImageModal); */
                 const galleryModal = document.querySelector(".modal-container .modeAdminGaleriePhoto");
                 const div = document.createElement("div");
                 div.classList.add("div-modeAdminGaleriePhoto");
@@ -271,9 +261,4 @@ function sauvegarderNouveauWork (event) {
             }).catch (error => {
               console.error("Erreur:", error);  
             })
-    })
-    form.addEventListener("submit", sauvegarderNouveauWork);
 };
-
-
-//Mon deuxieme bouton fermeture ne fonctionne pas, les ID des projets supprimés restent existant

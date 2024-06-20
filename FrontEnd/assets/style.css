@@ -381,6 +381,7 @@ input[type="file"] {
 	font-weight: 700;
 	font-size: 14px;
 	background-color: #A7A7A7; /* #1D6154 */
+	pointer-events: none; /*reagis a aucune évenement de la souris */
 	color: #FFFFFF;
 	width: 237px;
 	height: 36px;

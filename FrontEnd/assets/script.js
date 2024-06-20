@@ -1,7 +1,7 @@
 //const premierProjet = works[0]; console.log("EN TITRE PROJETS", works); console.log("EN TITRE MON PREMIER PROJET", premierProjet.title);
-const recupToken = window.localStorage.getItem("cleToken");
 document.querySelector(".black_mode_edition").style.display = 'none';
 document.querySelector(".modifier_projets").style.display = 'none';
+const recupToken = window.localStorage.getItem("cleToken");
 
 const reponse = await fetch("http://localhost:5678/api/works");
 const works = await reponse.json();
@@ -31,7 +31,7 @@ function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux d
         sectionGallery.appendChild(baliseFigure); 
     }
 }
-//permet le 1er affichage des figures
+//permet le 1er affichage des <figure>
 genererLesArticles(works);
 
 afficherProjetsDansModal(works);
@@ -70,14 +70,13 @@ async function supprimerProjetsDansModal(Id, div) {
         method: "DELETE",
         headers: { "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}` // Ajoute le token dans l'en-tête
-         }
+        }
     })
     .then(reponse => {
         if (reponse.ok) {
             div.remove();
             //Approche 1
             document.querySelector(`#article-${Id}`).remove();
-
             //Approche 2
             //works = works.filter(function(projet) {
             //    return projet.id !== Id;
@@ -95,19 +94,24 @@ const reponseDesCategories = await fetch("http://localhost:5678/api/categories")
 const catego = await reponseDesCategories.json();
 
 const sectionFilterChoix = document.querySelector(".filterchoix")
-//boucle pour créer les nom des boutons via dossier categorie
-for (let i = 0; i < catego.length; i++) {
+//création du filtre Tous
+const btnTous = document.createElement("button");
+btnTous.innerText = "Tous";
+btnTous.addEventListener("click", function() {
+    genererLesArticles(works);
+});
+sectionFilterChoix.appendChild(btnTous);
+for (let i = 0; i < catego.length; i++) { //boucle pour créer les nom des boutons via dossier categorie
 
     const filtres = catego[i];
-    
     const boutonCatFiltre = document.createElement("button"); 
     boutonCatFiltre.innerText = filtres.name;
     boutonCatFiltre.className = filtres.name;//pour créer  des class aux boutons en HTML
 
     boutonCatFiltre.addEventListener("click", function () {
         const projetsFiltres = works.filter(function (miniFonctionNomInventee) {
-            //filtre moi dans tout les images quand catId du works est = à catego[i]id du json categories
-         return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrai pas préciser que c'est pour [i] ?
+            //filtre moi dans tout les images quand categId du works est = à catego[i]id du json categories
+            return miniFonctionNomInventee.categoryId === filtres.id; //je ne devrai pas préciser que c'est pour [i] ?
         })
         //effacement de l'écran et régénération des articles filtrés
         genererLesArticles(projetsFiltres);
@@ -115,28 +119,20 @@ for (let i = 0; i < catego.length; i++) {
     sectionFilterChoix.appendChild(boutonCatFiltre);
 }
 
-//création du bouton Tous pour le filtre
-const btnTous = document.querySelector(".btntous");
-btnTous.addEventListener("click", function() {
-    genererLesArticles(works);
-});
 
 //en mode admin
 if (recupToken) {
-    console.log("On est dans la boucle du if recupToken");
-
-    document.querySelector(".black_mode_edition").style.display = '';
+    document.querySelector(".black_mode_edition").style.display = "";
     document.querySelector(".modifier_projets").style.display = "flex";
-    document.querySelector(".loginOut").innerText = "logout";
-    document.querySelector(".filterchoix").style.display = 'none';
+    const liLogin = document.querySelector(".loginOut")
+    liLogin.innerText = "logout";
+    document.querySelector(".filterchoix").style.display = "none";
     /* display none c ok la sécu ? car on peu repcup avec inspecter : oui mais pas de pb sans le login */
 
     // pour se logout
-    const liLogin = document.querySelector(".loginOut")
     if  (liLogin.addEventListener("click", (eventSurLogout) => {
         eventSurLogout.preventDefault()
         window.localStorage.removeItem("cleToken")
-        console.log("click sur logout");
         location.reload();
     }));
 }
