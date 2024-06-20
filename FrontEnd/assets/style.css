@@ -200,7 +200,7 @@ nav a {
 	height: 100vh;
 }
 .modal-container.active {
-	display: block; /*pour annuler le none quand on clic sur le trigger*/
+	display: flex; /*pour annuler le none quand on clic sur le trigger*/
 }
 .overlay {
 	position: absolute;

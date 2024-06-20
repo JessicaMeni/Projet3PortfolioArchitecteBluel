@@ -1,12 +1,11 @@
 const reponseDesCategories = await fetch("http://localhost:5678/api/categories");
 const catego = await reponseDesCategories.json();
-const token = window.localStorage.getItem("cleToken");
+
 
 const inputBoutonModal = document.querySelector(".input-bouton-modal")
 
 inputBoutonModal.addEventListener("click", function (e) {
     e.preventDefault()
-    const galleryModal = document.querySelector(".modal-container .modal"); // pourquoi avoir choisi ces 2?
     document.querySelector(".modal-un").style.display = 'none'; //cache modal 1
 
     const modalContainer = document.querySelector(".modal-container");
@@ -21,9 +20,11 @@ inputBoutonModal.addEventListener("click", function (e) {
     modalDeux.append(boutonFlecheRetour);
     //fonction retour sur modal-un
     boutonFlecheRetour.addEventListener("click", () => {
-        if (document.querySelector(".modal-un").style.display === 'none' || document.querySelector(".modal-un").style.display === '')
+        if (document.querySelector(".modal-un").style.display === 'none' || document.querySelector(".modal-un").style.display === ''){
             document.querySelector(".modal-un").style.display = 'flex';
-            modalDeux.style.display = 'none';
+        }
+           // modalDeux.style.display = 'none'; ancienne version, remove est mieux dans ce cas
+            modalDeux.remove();
     });
     
     const flecheRetour = document.createElement("i");
@@ -35,7 +36,14 @@ inputBoutonModal.addEventListener("click", function (e) {
     jsCloseModal.classList.add("js-close-modal", "modal-trigger");
     jsCloseModal.ariaLabel = "close modal";
     modalDeux.append(jsCloseModal);
-    
+    jsCloseModal.addEventListener("click", () => { // pour fermer la modal de façon ... compliqué
+                modalDeux.remove();
+                modalContainer.classList.remove("active");
+                modalContainer.style.display === 'none';
+                document.querySelector(".modal-un").style.display = 'flex';
+    });
+
+
     const faXmark = document.createElement("i");
     faXmark.classList.add("fa-solid", "fa-xmark");
     jsCloseModal.append(faXmark);
@@ -97,12 +105,12 @@ inputBoutonModal.addEventListener("click", function (e) {
                 }  
                 const filereader = new FileReader();
                 filereader.addEventListener("load", function(resultat) {
-                    console.log("Résultat :", resultat.target.result); //contient les données du fichier sous forme de data URL
+                    //console.log("Résultat :", resultat.target.result); contient les données du fichier sous forme de data URL
                     iconePhoto.style.display = 'none';
                     pPhoto.style.display = 'none';
-                    labelAjouterPhoto.style.display = 'none'
+                    labelAjouterPhoto.style.display = 'none';
                     
-                    //divContenuDeDivBleue.innerHTML = '';  pas ok, car ça supprime label et input ?
+                    //divContenuDeDivBleue.innerHTML = '';  pas ok, car ça supprime label et input ? pas de pb pcq label est crée avec du JS
                     let img = document.createElement("img");
                     img.id = 'image-id';
                     img.src = resultat.target.result; //assigne la source de l'image à l'URL de données obtenu par FileReader
@@ -115,6 +123,7 @@ inputBoutonModal.addEventListener("click", function (e) {
             } else {
                 alert("Une erreur est apparu");
             }
+            boutonValiderDevientVert();
         });
         
         const pPhoto = document.createElement("p");
@@ -167,59 +176,104 @@ inputBoutonModal.addEventListener("click", function (e) {
         form.append(formSubmit);
         form.addEventListener("submit", sauvegarderNouveauWork);
         //ou formSubmit.addEventListener("click", sauvegarderNouveauWork);
+
+        formTitreInput.addEventListener("change", boutonValiderDevientVert);
+        formCategoSelect.addEventListener("change", boutonValiderDevientVert);
+
+    function boutonValiderDevientVert() {
+        const formSubmit = document.querySelector(".submit-valider");
+        //console.log("formSubmit", formSubmit);
+        if (inputAjouterPhoto.files.length > 0 && formTitreInput.value !== '' && formCategoSelect.value !== '') {
+            console.log("Tous les labels ont du contenu. Réalisation de l'action.");
+            formSubmit.style.backgroundColor = "#1D6154"
+            formSubmit.style.pointerEvents = "all";
+        } else {
+            formSubmit.style.backgroundColor = "#A7A7A7";
+            formSubmit.style.pointerEvents = "none";
+        }
+    };
 });
 
-const inputAjouterPhoto = document.getElementById('inputFile');
-const formTitreInput = document.getElementById('title');
-const formCategoSelect = document.getElementById('categorie');
-/* function boutonValiderDevientVert(click) {
-    if (inputAjouterPhoto.innerText !== '' && formTitreInput.innerText !== '' && formCategoSelect.innerText !== '') {
-        console.log("Tous les labels ont du contenu. Réalisation de l'action.");
-        const formSubmit = document.querySelector(".submit-valider")
-        formSubmit.style.backgroudColor = "#1D6154"
-    }
-}; */
-
- 
 function sauvegarderNouveauWork (event) {
     event.preventDefault();
     const form = document.querySelector("#formAjoutWork"); // pq # ?
-    //const imgSrc = document.getElementById("image-id");// file n'est pas dans la balise form
-    //imgSrc.src = resultat.target.result;
-   // const imgUrl = imgSrc.src;
-    const submit = document.querySelector(".submit-valider");
+    const token = window.localStorage.getItem("cleToken");
 
     form.addEventListener("submit", function (event) {
         
-        const sauvgNouveauWork = {
-            title: event.target.querySelector("[name=title]").value, //j'ai ajouté event a cause de l'addEventListener
-            //imageUrl: ou image: comme écrit sur Swagger ?,
-            image: event.target.querySelector("[type=file]").value,
-            categoryId: event.target.querySelector("[name=categorie]").value,
-        };
-        console.log("sauvgNouveauWork", sauvgNouveauWork);
-        const chargeUtile = JSON.stringify(sauvgNouveauWork);
-        
+
+        const formData = new FormData();
+        formData.append("title", event.target.querySelector("[name=title]").value); //j'ai ajouté event a cause de l'addEventListener
+        formData.append("image", event.target.querySelector("[type=file]").files[0]);
+        formData.append("category", event.target.querySelector("[name=categorie]").value);
+
         fetch( 'http://localhost:5678/api/works/', 
             {
                 method: "POST",
-                headers: {  "Content-Type": "application/json",
-                            "Content-Type": "multipart/form-data", // vu sur Swagger,c correct ?
-                            "Authorization": `Bearer ${token}`  },
-                body: chargeUtile
-            }).then(async function(reponse) {
+                headers: {  
+                    // "Content-Type": "multipart/form-data", // vu sur Swagger,c correct ?
+                        "Authorization": `Bearer ${token}`  
+                },
+                body: formData
+
+            }).then(reponse => {
                 console.log(reponse.status);
-                if (reponse.status === 201) {
-                    const contenu = await reponse.json();
-                    //enregistrer la rep de L'API grace a SetItem
-                    //window.localStorage.setItem("cleToken", token);
-                    console.log("201");
-                    //window.location.href="../index.html";
-                } else {
-                    alert("Demande erronée ou non autorisée")
-            }
-        })    
+                const contenu = reponse.json();
+                
+                if (!reponse.ok) {
+                    throw new Error("Demande erronée ou non autorisée. Status: ${reponse.status}, Message: ${errorText}")
+                }return contenu;
+            }) .then (contenu => {
+                console.log('Response data:', contenu);
+                //fermer la modal
+                const modalDeux = document.querySelector(".modal-deux");
+                modalDeux.remove();
+                const modalContainer = document.querySelector('.modal-container')
+                modalContainer.classList.remove("active");
+                modalContainer.style.display === 'none';
+                document.querySelector(".modal-un").style.display = 'flex';
+                //création de balises dans gallery pour y mettre les nouveaux works
+                const baliseFigure = document.createElement("figure");
+                baliseFigure.id = `article-${contenu.id}`;
+                const baliseImage = document.createElement("img");
+                baliseImage.src = contenu.imageUrl;
+                const baliseFigcaption = document.createElement("figcaption");
+                baliseFigcaption.textContent = contenu.title;
+                baliseFigure.appendChild(baliseImage);
+                baliseFigure.appendChild(baliseFigcaption);
+                const sectionGallery = document.querySelector(".gallery");
+                sectionGallery.appendChild(baliseFigure);
+                // pour la modal 1
+                /*const galleryModal = document.querySelector(".modal-container .modeAdminGaleriePhoto");
+                const div = document.createElement("div");
+                div.classList.add("div-modeAdminGaleriePhoto");
+                galleryModal.append(div);
+                const baliseImageModal = document.createElement("img");
+                baliseImageModal.src = contenu.imageUrl;
+                div.append(baliseImageModal); */
+                const galleryModal = document.querySelector(".modal-container .modeAdminGaleriePhoto");
+                const div = document.createElement("div");
+                div.classList.add("div-modeAdminGaleriePhoto");
+                div.id = `article-${contenu.id}`;
+                galleryModal.append(div);
+                        
+                const span = document.createElement("span");
+                div.append(span);
+                        
+                const poubelle = document.createElement("i");
+                poubelle.classList.add("fa-solid", "fa-trash-can");
+                span.append(poubelle);
+                poubelle.id = contenu.id;
+                        
+                const baliseImageModal = document.createElement("img");
+                baliseImageModal.src = contenu.imageUrl;
+                div.append(baliseImageModal);
+            }).catch (error => {
+              console.error("Erreur:", error);  
+            })
     })
+    form.addEventListener("submit", sauvegarderNouveauWork);
 };
 
-//Mon deuxieme bouton fermeture ne fonctionne pas, valider en vert pas encore, comment empecher de créer des doublons de modal2, input file n'est pas dans le form, c'est ok ?
+
+//Mon deuxieme bouton fermeture ne fonctionne pas, les ID des projets supprimés restent existant

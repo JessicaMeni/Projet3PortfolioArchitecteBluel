@@ -32,7 +32,7 @@ function genererLesArticles(projetsArticles) { //je peux ecrire ce que je veux d
     }
 }
 //permet le 1er affichage des figures
-genererLesArticles(works); //
+genererLesArticles(works);
 
 afficherProjetsDansModal(works);
 function afficherProjetsDansModal (projetsArticles) {
@@ -61,6 +61,7 @@ function afficherProjetsDansModal (projetsArticles) {
         poubelle.addEventListener('click', () => supprimerProjetsDansModal(article.id, div));
     }
 }
+
 async function supprimerProjetsDansModal(Id, div) {
     const APIUrl = `http://localhost:5678/api/works/${Id}`;
     const token = recupToken
@@ -82,7 +83,7 @@ async function supprimerProjetsDansModal(Id, div) {
             //    return projet.id !== Id;
             //});
         } else {
-            throw new Error('Echec à la suppression de l image');
+            throw new Error("Echec à la suppression de l'image");
         }
     })
     .catch(error => {
